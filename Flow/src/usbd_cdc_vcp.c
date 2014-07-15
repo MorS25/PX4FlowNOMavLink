@@ -29,6 +29,9 @@
 #include "usbd_conf.h"
 #include "stm32f4xx.h"
 #include "usbd_cdc_vcp.h"
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
 /* Fixed USB VCP settings, changes are ignored */
 LINE_CODING linecoding =
@@ -207,6 +210,25 @@ void VCP_send_str(uint8_t* buf)
 		i++;
 	}
 	VCP_DataTx(buf, i);
+}
+
+/** 
+  * add printf like functionality 
+  * ala http://raucha-blog.blogspot.jp/2014/01/stm32f4uartprintf.html
+  */
+
+void VCP_printf2(const char *format, ...)
+{
+ va_list list;
+ va_start(list, format);
+ int len = vsnprintf(0, 0, format, list);
+ char *s;
+ s = (char *)malloc(len + 1);
+ vsprintf(s, format, list);
+ VCP_send_str(s);
+ free(s);
+ va_end(list);
+ return;
 }
 
 /**
