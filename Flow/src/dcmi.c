@@ -170,13 +170,13 @@ void DMA2_Stream1_IRQHandler(void)
 void dma_swap_buffers(void)
 {
 	/* check which buffer is in use */
-	VCP_send_str("check which buffer is in use");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("check which buffer is in use");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	if (DMA_GetCurrentMemoryTarget(DMA2_Stream1))
 	{
 		/* swap dcmi image buffer */
-		VCP_send_str("swap dcmi image buffer");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("swap dcmi image buffer");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		if (dcmi_image_buffer_unused == 1)
 			DMA_MemoryTargetConfig(DMA2_Stream1, (uint32_t) dcmi_image_buffer_8bit_1, DMA_Memory_0);
 		else if (dcmi_image_buffer_unused == 2)
@@ -191,8 +191,8 @@ void dma_swap_buffers(void)
 	else
 	{
 		/* swap dcmi image buffer */
-		VCP_send_str("swap dcmi image buffer");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("swap dcmi image buffer");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		if (dcmi_image_buffer_unused == 1)
 			DMA_MemoryTargetConfig(DMA2_Stream1, (uint32_t) dcmi_image_buffer_8bit_1, DMA_Memory_1);
 		else if (dcmi_image_buffer_unused == 2)
@@ -206,27 +206,27 @@ void dma_swap_buffers(void)
 	}
 
 	/* set next time_between_images */
-	VCP_send_str("set next time_between_images");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("set next time_between_images");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	cycle_time = get_boot_time_ms() - time_last_frame;
 	time_last_frame = get_boot_time_ms();
 
 	if(image_counter) // image was not fetched jet
 	{
-		VCP_send_str("image was not fetched jet");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("image was not fetched jet");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		time_between_next_images = time_between_next_images + cycle_time;
 	}
 	else
 	{
-		VCP_send_str("image was fetched?");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("image was fetched?");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		time_between_next_images = cycle_time;
 	}
 
 	/* set new image true and increment frame counter*/
-	VCP_send_str("set new image true and increment frame counter");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("set new image true and increment frame counter");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	image_counter += 1;
 
 	return;
@@ -251,47 +251,47 @@ uint32_t get_frame_counter(void){
 void dma_copy_image_buffers(uint8_t ** current_image, uint8_t ** previous_image, uint16_t image_size, uint8_t image_step){
 
 	/* swap image buffers */
-	VCP_send_str("swap image buffers");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("swap image buffers");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	uint8_t * tmp_image = *current_image;
 	*current_image = *previous_image;
 	*previous_image = tmp_image;
 
 	/* wait for new image if needed */
-	VCP_send_str("wait for new image if needed");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("wait for new image if needed");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	while(image_counter < image_step) 
 	{
-		VCP_send_str("image_counter < image_step");VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("image_counter < image_step");VCP_put_char(0x0d);VCP_put_char(0x0a);
 	}
 	image_counter = 0;
 
 	/* time between images */
-	VCP_send_str("time between images");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("time between images");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	time_between_images = time_between_next_images;
 
 	/* copy image */
-	VCP_send_str("copy image");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("copy image");
+	//VCP_put_char(0x0d);VCP_put_char(0x0a);
 	if (dcmi_image_buffer_unused == 1)
 	{
-		VCP_send_str("dcmi_image_buffer_unused == 1");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("dcmi_image_buffer_unused == 1");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		for (uint16_t pixel = 0; pixel < image_size; pixel++)
 			(*current_image)[pixel] = (uint8_t)(dcmi_image_buffer_8bit_1[pixel]);
 	}
 	else if (dcmi_image_buffer_unused == 2)
 	{
-		VCP_send_str("dcmi_image_buffer_unused == 2");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("dcmi_image_buffer_unused == 2");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		for (uint16_t pixel = 0; pixel < image_size; pixel++)
 			(*current_image)[pixel] = (uint8_t)(dcmi_image_buffer_8bit_2[pixel]);
 	}
 	else
 	{
-		VCP_send_str("dcmi_image_buffer_unused == 2");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("dcmi_image_buffer_unused == 2");
+		//VCP_put_char(0x0d);VCP_put_char(0x0a);
 		for (uint16_t pixel = 0; pixel < image_size; pixel++)
 			(*current_image)[pixel] = (uint8_t)(dcmi_image_buffer_8bit_3[pixel]);
 	}

@@ -171,19 +171,18 @@ void buffer_reset(void) {
 int main(void)
 {
 	/* load settings and parameters */
-        VCP_send_str("load settings and parameters");
-	VCP_printf2("%x%x%x%x%x%x%x","aaaaaaaaa");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+        //VCP_send_str("load settings and parameters");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	global_data_reset_param_defaults();
-	VCP_send_str("global_data_reset_param_defaults");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("global_data_reset_param_defaults");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	global_data_reset();
-	VCP_send_str("global_data_reset");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("global_data_reset");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 
 	/* init led */
-	VCP_send_str("init leds");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("init leds");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	LEDInit(LED_ACT);
 	LEDInit(LED_COM);
 	LEDInit(LED_ERR);
@@ -192,13 +191,13 @@ int main(void)
 	LEDOff(LED_ERR);
 
 	/* enable FPU on Cortex-M4F core */
-	VCP_send_str("enable FPU on Cortex-M4F core");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("enable FPU on Cortex-M4F core");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	SCB_CPACR |= ((3UL << 10 * 2) | (3UL << 11 * 2)); /* set CP10 Full Access and set CP11 Full Access */
 
 	/* init clock */
-	VCP_send_str("init clock");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("init clock");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 
 	if (SysTick_Config(SystemCoreClock / 1000))
 	{
@@ -208,8 +207,8 @@ int main(void)
 	}
 
 	/* init usb */
-	VCP_send_str("init USB");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("init USB");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 
 	USBD_Init(	&USB_OTG_dev,
 				USB_OTG_FS_CORE_ID,
@@ -218,23 +217,23 @@ int main(void)
 				&USR_cb);
 
 	/* init mavlink */
-	VCP_send_str("init mavlink");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("init mavlink");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	communication_init();
 
 	/* enable image capturing */
-	VCP_send_str("enable image capturing");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("enable image capturing");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	enable_image_capture();
 
 	/* gyro config */
-	VCP_send_str("gyro config");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("gyro config");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	gyro_config();
 
 	/* init and clear fast image buffers */
-	VCP_send_str("init and clear fast image buffers");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("init and clear fast image buffers");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	for (int i = 0; i < global_data.param[PARAM_IMAGE_WIDTH] * global_data.param[PARAM_IMAGE_HEIGHT]; i++)
 	{
 		image_buffer_8bit_1[i] = 0;
@@ -245,26 +244,26 @@ int main(void)
 	uint8_t * previous_image = image_buffer_8bit_2;
 
 	/* usart config*/
-	VCP_send_str("usart config");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("usart config");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	usart_init();
 
     /* i2c config*/
-	VCP_send_str("i2c config");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("i2c config");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
     	i2c_init();
 
 	/* sonar config*/
-	VCP_send_str("sonar config");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("sonar config");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	float sonar_distance_filtered = 0.0f; // distance in meter
 	float sonar_distance_raw = 0.0f; // distance in meter
 	bool distance_valid = false;
 	sonar_config();
 
 	/* reset/start timers */
-	VCP_send_str("reset / start timers");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("reset / start timers");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	timer[TIMER_SONAR] = SONAR_TIMER_COUNT;
 	timer[TIMER_SYSTEM_STATE] = SYSTEM_STATE_COUNT;
 	timer[TIMER_RECEIVE] = SYSTEM_STATE_COUNT / 2;
@@ -272,14 +271,14 @@ int main(void)
 	timer[TIMER_IMAGE] = global_data.param[PARAM_VIDEO_RATE];
 
 	/* variables */
-	VCP_send_str("variables");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("variables");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	uint32_t counter = 0;
 	uint8_t qual = 0;
 
 	/* bottom flow variables */
-	VCP_send_str("bottom flow variables");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("bottom flow variables");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	float pixel_flow_x = 0.0f;
 	float pixel_flow_y = 0.0f;
 	float pixel_flow_x_sum = 0.0f;
@@ -292,13 +291,13 @@ int main(void)
 	int pixel_flow_count = 0;
 
 	/* main loop */
-	VCP_send_str("main loop");
-	VCP_put_char(0x0d);VCP_put_char(0x0a);
+	//VCP_send_str("main loop");
+	//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 	while (1)
 	{
 		/* reset flow buffers if needed */
-		VCP_send_str("reset flow buffers if needed");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("reset flow buffers if needed");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if(buffer_reset_needed)
 		{
 			buffer_reset_needed = 0;
@@ -312,8 +311,8 @@ int main(void)
 		}
 
 		/* calibration routine */
-		VCP_send_str("calibration routine");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("calibration routine");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if(global_data.param[PARAM_VIDEO_ONLY])
 		{
 			while(global_data.param[PARAM_VIDEO_ONLY])
@@ -321,20 +320,20 @@ int main(void)
 				dcmi_restart_calibration_routine();
 
 				/* waiting for first quarter of image */
-				VCP_send_str("waiting for first quarter of image");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("waiting for first quarter of image");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				while(get_frame_counter() < 2){}
 				dma_copy_image_buffers(&current_image, &previous_image, FULL_IMAGE_SIZE, 1);
 
 				/* waiting for second quarter of image */
-				VCP_send_str("waiting for second quarter of image");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("waiting for second quarter of image");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				while(get_frame_counter() < 3){}
 				dma_copy_image_buffers(&current_image, &previous_image, FULL_IMAGE_SIZE, 1);
 
 				/* waiting for all image parts */
-				VCP_send_str("waiting for all image parts");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("waiting for all image parts");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				while(get_frame_counter() < 4){}
 
 				send_calibration_image(&previous_image, &current_image);
@@ -354,28 +353,30 @@ int main(void)
 		}
 
 		uint16_t image_size = global_data.param[PARAM_IMAGE_WIDTH] * global_data.param[PARAM_IMAGE_HEIGHT];
+		//VCP_printf2("%i",image_size);
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 
 		/* new gyroscope data */
-		VCP_send_str("new gyroscope data");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("new gyroscope data");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		float x_rate_sensor, y_rate_sensor, z_rate_sensor;
 		gyro_read(&x_rate_sensor, &y_rate_sensor, &z_rate_sensor);
 
 		/* gyroscope coordinate transformation */
-		VCP_send_str("gyroscope coordinate transformation");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("gyroscope coordinate transformation");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		float x_rate = y_rate_sensor; // change x and y rates
 		float y_rate = - x_rate_sensor;
 		float z_rate = z_rate_sensor; // z is correct
 
 		/* calculate focal_length in pixel */
-		VCP_send_str("calculate focal_length in pixel");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("calculate focal_length in pixel");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		const float focal_length_px = (global_data.param[PARAM_FOCAL_LENGTH_MM]) / (4.0f * 6.0f) * 1000.0f; //original focal lenght: 12mm pixelsize: 6um, binning 4 enabled
 
 		/* debug */
-		VCP_send_str("debug");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("debug");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		float x_rate_pixel = x_rate * (get_time_between_images() / 1000.0f) * focal_length_px;
 		float y_rate_pixel = y_rate * (get_time_between_images() / 1000.0f) * focal_length_px;
 
@@ -384,31 +385,41 @@ int main(void)
 //		y_rate = y_rate_raw_sensor;
 
 		/* get sonar data */
-		VCP_send_str("get sonar data");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("get sonar data");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
+		//VCP_printf2("%i",x_rate);
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
+		//VCP_printf2("%i",y_rate);
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
+		//VCP_printf2("%i",z_rate);
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		sonar_read(&sonar_distance_filtered, &sonar_distance_raw);
 
-		/* compute optical flow */
-		VCP_send_str("compute optical flow");
+		VCP_printf2("%f",sonar_distance_filtered);
 		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		VCP_printf2("%f",sonar_distance_raw);
+
+		/* compute optical flow */
+		//VCP_send_str("compute optical flow");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if(global_data.param[PARAM_SENSOR_POSITION] == BOTTOM)
 		{
 			/* copy recent image to faster ram */
-			VCP_send_str("copy recent image to faster ram");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("copy recent image to faster ram");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			// hanging here. 
 			dma_copy_image_buffers(&current_image, &previous_image, image_size, 0);
 
 			/* compute optical flow */
-			VCP_send_str("compute optical flow");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("compute optical flow");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			qual = compute_flow(previous_image, current_image, x_rate, y_rate, z_rate, &pixel_flow_x, &pixel_flow_y);
 
 			if (sonar_distance_filtered > 5.0f || sonar_distance_filtered == 0.0f)
 			{
 				/* distances above 5m are considered invalid */
-				VCP_send_str("distances above 5m are considered invalid");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("distances above 5m are considered invalid");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				sonar_distance_filtered = 0.0f;
 				distance_valid = false;
 			}
@@ -422,19 +433,19 @@ int main(void)
 			 * x / f = X / Z
 			 * y / f = Y / Z
 			 */
-			VCP_send_str("real point P (X,Y,Z), image plane projection p (x,y,z), focal-length f, distance-to-scene Z");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("real point P (X,Y,Z), image plane projection p (x,y,z), focal-length f, distance-to-scene Z");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			float flow_compx = pixel_flow_x / focal_length_px / (get_time_between_images() / 1000.0f);
 			float flow_compy = pixel_flow_y / focal_length_px / (get_time_between_images() / 1000.0f);
 
 			/* integrate velocity and output values only if distance is valid */
-			VCP_send_str("integrate velocity and output values only if distance is valid");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("integrate velocity and output values only if distance is valid");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			if (distance_valid)
 			{
 				/* calc velocity (negative of flow values scaled with distance) */
-				VCP_send_str("calc velocity (negative of flow values scaled with distance)");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("calc velocity (negative of flow values scaled with distance)");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				float new_velocity_x = - flow_compx * sonar_distance_filtered;
 				float new_velocity_y = - flow_compy * sonar_distance_filtered;
 
@@ -445,8 +456,8 @@ int main(void)
 					valid_frame_count++;
 
 					/* lowpass velocity output */
-					VCP_send_str("lowpass velocity output");
-					VCP_put_char(0x0d);VCP_put_char(0x0a);
+					//VCP_send_str("lowpass velocity output");
+					//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 					velocity_x_lp = global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW] * new_velocity_x +
 							(1.0f - global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW]) * velocity_x_lp;
 					velocity_y_lp = global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW] * new_velocity_y +
@@ -455,8 +466,8 @@ int main(void)
 				else
 				{
 					/* taking flow as zero */
-					VCP_send_str("taking flow as zero");
-					VCP_put_char(0x0d);VCP_put_char(0x0a);
+					//VCP_send_str("taking flow as zero");
+					//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 					velocity_x_lp = (1.0f - global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW]) * velocity_x_lp;
 					velocity_y_lp = (1.0f - global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW]) * velocity_y_lp;
 				}
@@ -464,8 +475,8 @@ int main(void)
 			else
 			{
 				/* taking flow as zero */
-				VCP_send_str("taking flow as zero");
-				VCP_put_char(0x0d);VCP_put_char(0x0a);
+				//VCP_send_str("taking flow as zero");
+				//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 				velocity_x_lp = (1.0f - global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW]) * velocity_x_lp;
 				velocity_y_lp = (1.0f - global_data.param[PARAM_BOTTOM_FLOW_WEIGHT_NEW]) * velocity_y_lp;
 			}
@@ -484,8 +495,8 @@ int main(void)
 		if(global_data.param[PARAM_SENSOR_POSITION] == BOTTOM)
 		{
 			/* send bottom flow if activated */
-			VCP_send_str("send bottom flow if activated");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("send bottom flow if activated");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			if (counter % 2 == 0)
 			{
 				float flow_comp_m_x = 0.0f;
@@ -513,8 +524,8 @@ int main(void)
 					//mavlink_msg_optical_flow_send(MAVLINK_COMM_0, get_boot_time_ms() * 1000, global_data.param[PARAM_SENSOR_ID],
 					//		pixel_flow_x_sum * 10.0f, pixel_flow_y_sum * 10.0f,
 					//		flow_comp_m_x, flow_comp_m_y, qual, ground_distance);
-					VCP_send_str("this *should* send flow - disabled for now");
-					VCP_put_char(0x0d);VCP_put_char(0x0a);
+					//VCP_send_str("this *should* send flow - disabled for now");
+					//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 
 					if (global_data.param[PARAM_USB_SEND_FLOW])
 						//mavlink_msg_optical_flow_send(MAVLINK_COMM_2, get_boot_time_ms() * 1000, global_data.param[PARAM_SENSOR_ID],
@@ -528,8 +539,8 @@ int main(void)
 				else
 				{
 					// send distance
-					VCP_send_str("this *should* send distance - disabled for now");
-					VCP_put_char(0x0d);VCP_put_char(0x0a);
+					//VCP_send_str("this *should* send distance - disabled for now");
+					//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 					//mavlink_msg_optical_flow_send(MAVLINK_COMM_0, get_boot_time_ms() * 1000, global_data.param[PARAM_SENSOR_ID],
 					//	pixel_flow_x_sum * 10.0f, pixel_flow_y_sum * 10.0f,
 					//	0.0f, 0.0f, 0, ground_distance);
@@ -557,21 +568,21 @@ int main(void)
 		}
 
 		/* forward flow from other sensors */
-		VCP_send_str("forward flow from other sensors");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("forward flow from other sensors");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if (counter % 2)
 		{
 			communication_receive_forward();
 		}
 
 		/* send system state, receive commands */
-		VCP_send_str("send system state, receive commands");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("send system state, receive commands");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if (send_system_state_now)
 		{
 			/* every second */
-			VCP_send_str("every second");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("every second");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			if (global_data.param[PARAM_SYSTEM_SEND_STATE])
 			{
 				communication_system_state_send();
@@ -580,21 +591,21 @@ int main(void)
 		}
 
 		/* receive commands */
-		VCP_send_str("receive commands");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("receive commands");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if (receive_now)
 		{
 			/* test every second */
-			VCP_send_str("test every second");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("test every second");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			communication_receive();
 			communication_receive_usb();
 			receive_now = false;
 		}
 
 		/* sending debug msgs and requested parameters */
-		VCP_send_str("sending debug msgs and requested parameters");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("sending debug msgs and requested parameters");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if (send_params_now)
 		{
 			debug_message_send_one();
@@ -603,13 +614,13 @@ int main(void)
 		}
 
 		/*  transmit raw 8-bit image */
-		VCP_send_str("transmit raw 8-bit image");
-		VCP_put_char(0x0d);VCP_put_char(0x0a);
+		//VCP_send_str("transmit raw 8-bit image");
+		//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 		if (global_data.param[PARAM_USB_SEND_VIDEO] && send_image_now)
 		{
 			/* get size of image to send */
-			VCP_send_str("get size of image to send");
-			VCP_put_char(0x0d);VCP_put_char(0x0a);
+			//VCP_send_str("get size of image to send");
+			//VCP_put_char(0x0d);//VCP_put_char(0x0a);
 			uint16_t image_size_send;
 			uint16_t image_width_send;
 			uint16_t image_height_send;
