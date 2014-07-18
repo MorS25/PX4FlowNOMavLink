@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /* Fixed USB VCP settings, changes are ignored */
 LINE_CODING linecoding =
@@ -210,6 +211,26 @@ void VCP_send_str(uint8_t* buf)
 		i++;
 	}
 	VCP_DataTx(buf, i);
+}
+
+caddr_t _sbrk(int incr)
+{
+  extern char _ebss; // Defined by the linker
+  static char *heap_end;
+  char *prev_heap_end;
+  if (heap_end == 0)
+  {
+    heap_end = &_ebss;
+  }
+  prev_heap_end = heap_end;
+  char * stack = (char*) __get_MSP();
+  if (heap_end + incr > stack)
+  {
+    errno = ENOMEM;
+    return (caddr_t) -1;
+  }
+  heap_end += incr;
+  return (caddr_t) prev_heap_end;
 }
 
 /** 
