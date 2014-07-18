@@ -172,6 +172,7 @@ int main(void)
 {
 	/* load settings and parameters */
         VCP_send_str("load settings and parameters");
+	VCP_printf2("%x%x%x%x%x%x%x","aaaaaaaaa");
 	VCP_put_char(0x0d);VCP_put_char(0x0a);
 	global_data_reset_param_defaults();
 	VCP_send_str("global_data_reset_param_defaults");
